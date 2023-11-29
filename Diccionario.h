@@ -2,12 +2,13 @@
 #define DICCIONARIO
 #include<list>
 #include<string>
+#include "TablaHash.h"
 
 using namespace std;
 
 class Diccionario{
 	private:
-		list<string> diccionario;
+		TablaHash diccionario;
 		int contador;
 	public:
 		Diccionario();
@@ -16,7 +17,5 @@ class Diccionario{
 		void vaciar(void);
 		int tamano(void);
 };
-
-
 
 #endif

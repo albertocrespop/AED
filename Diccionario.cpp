@@ -2,35 +2,23 @@
 #include "Diccionario.h"
 
 Diccionario::Diccionario(){
-	contador = 0;
+	contador = diccionario.numElem();
 }
 
 void Diccionario::insertar(string palabra){
-	if(!this->consultar(palabra)){			
-		this->diccionario.push_back(palabra);
-		this->contador = this->contador + 1;
-	}
+	diccionario.insertar(palabra);
+	contador = diccionario.numElem();
 }
 
 bool Diccionario::consultar(string palabra){
-	list<string>::iterator EA;
-	string actual;
-	EA = this->diccionario.begin();
-
-	while(EA != this->diccionario.end() && *EA != palabra){
-		EA++;
-	}
-	if(EA == this->diccionario.end()){
-		return false;
-	}
-	return true;
+	return diccionario.consultar(palabra);
 }
 
 void Diccionario::vaciar(){
-		this->diccionario.clear();
-		this->contador = 0;
+	diccionario.vaciar();
+	contador = 0;
 }	
 
 int Diccionario::tamano(){
-	return this->contador;	
+	return contador;
 }
