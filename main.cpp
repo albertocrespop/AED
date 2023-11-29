@@ -59,7 +59,7 @@ string cesar(string palabra){
 			ces[i] = -61;
 			ces.insert(i+1,1,-111);
 		}
-		else if(ces[i] != -111 && ces[i] <= 'Z' && ces[i] >= 'A'){
+		else if(ces[i] != -111){
 		    ces[i] = ces[i] - 1;   
 		}
 	}
@@ -75,29 +75,24 @@ bool contieneU(string palabra){
 	return false;
 }
 
-void generarCombinacionesIterativo(string& palabra, list<string>& combs) {
-    list<string> temp;
-    combs.push_back(palabra);
-
-    for (int i = 0; i < palabra.length(); ++i) {
-        if (palabra[i] == 'U') {
-            for (string& comb : combs) {
-                string nuevaPalabra = comb;
-                nuevaPalabra[i] = -61;
-				nuevaPalabra.insert(i+1,1,-100);
-                temp.push_back(nuevaPalabra);
-            }
-        }
-    }
-
-    combs.splice(combs.end(), temp);
-}
-
-list<string> combinaciones(string& palabra) {
-    list<string> combs;
-    generarCombinacionesIterativo(palabra, combs);
-
-    return combs;
+list<string> combinaciones(string palabra){
+	list<string> combs;
+	list<string> temp;
+	combs.push_back(palabra);
+		for(int i = 0; i < palabra.length(); i++){
+			if(palabra[i] == 'U'){
+				palabra[i] = -61;
+				palabra.insert(i+1,1,-100);
+				combs.push_back(palabra);
+				temp = combinaciones(palabra);
+				combs.splice(combs.end(), temp);
+				palabra[i] = 'U';
+				palabra.erase(i+1,1);
+			}
+		}
+	combs.sort();
+	combs.unique();
+	return combs;
 }
 
 bool consola(string comando){
@@ -146,16 +141,14 @@ bool consola(string comando){
 	else if(comando.compare("<césar>") == 0){
 		cin>>c;
 		string input = normalizar(c);
-		list<string> resultados;
 		cout << "César: " << input << " ->";
+		list<string> resultados;
 		for(int i = 0; i < 27; i++){
 			input = cesar(input);
 			if(contieneU(input)){
-				list<string> cmbs = combinaciones(input);
-				for(string c : cmbs){
-					if(palabras.consultar(c)){
-						resultados.push_back(c);
-					}
+				list<string> matchs = palabras.obtenerU(input);
+				for (string s : matchs){
+					resultados.push_back(s);
 				}
 			}
 			else{
@@ -165,8 +158,10 @@ bool consola(string comando){
 			}
 		}
 		resultados.sort();
-		for(string c : resultados){
-			cout << " " << c;
+		list<string>::iterator h = resultados.begin();
+		while (h != resultados.end()){
+			cout << " " << *h;
+			h++;
 		}
 		cout << endl;
 	}

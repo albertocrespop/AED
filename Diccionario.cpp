@@ -14,6 +14,10 @@ bool Diccionario::consultar(string palabra){
 	return diccionario.consultar(palabra);
 }
 
+list<string> Diccionario::obtenerU(string palabra){
+	return diccionario.obtenerU(palabra);
+}
+
 void Diccionario::vaciar(){
 	diccionario.vaciar();
 	contador = 0;

@@ -5,6 +5,8 @@
 
 using namespace std;
 
+string reemplazarU(string palabra);
+
 class TablaHash{
 	private:
 		int t;
@@ -17,6 +19,8 @@ class TablaHash{
 		void vaciar (void);
 		int numElem (void) { return nElem; }
 		int funcHash(string palabra);
+
+		list<string> obtenerU(string palabra);
 };
 
 #endif

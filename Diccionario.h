@@ -16,6 +16,8 @@ class Diccionario{
 		bool consultar(string palabra);
 		void vaciar(void);
 		int tamano(void);
+
+		list<string> obtenerU(string palabra);
 };
 
 #endif

@@ -1,7 +1,16 @@
 #include <iostream>
 #include <list>
-#include <algorithm>
 #include "TablaHash.h"
+
+string reemplazarU(string palabra){
+	for (int i = 0; i < palabra.length(); i++){
+		if(palabra[i] == -61 && palabra[i+1] == -100){
+			palabra[i] = 'U';
+			palabra.erase(i+1,1);
+		}
+	}
+	return palabra;
+}
 
 TablaHash::TablaHash(){
 	t = 10000;
@@ -10,7 +19,7 @@ TablaHash::TablaHash(){
 }
 
 void TablaHash::insertar(string palabra){
-	int pos = funcHash(palabra);
+	int pos = funcHash(reemplazarU(palabra));
 	list<string>::iterator iterador = tablahash[pos].begin();
 	while(iterador != tablahash[pos].end() && *iterador < palabra){
 		if(*iterador == palabra){
@@ -29,7 +38,7 @@ void TablaHash::insertar(string palabra){
 }
 
 bool TablaHash::consultar(string palabra){
-	int pos = funcHash(palabra);
+	int pos = funcHash(reemplazarU(palabra));
 	list<string>::iterator iterador = tablahash[pos].begin();
 	while(iterador != tablahash[pos].end() && *iterador <= palabra){
 		if(*iterador == palabra){
@@ -38,6 +47,19 @@ bool TablaHash::consultar(string palabra){
 		iterador++;
 	}
 	return false;
+}
+
+list<string> TablaHash::obtenerU(string palabra){
+	int pos = funcHash(palabra);
+	list<string>::iterator iterador = tablahash[pos].begin();
+	list<string> results;
+	while(iterador != tablahash[pos].end() && reemplazarU(*iterador) <= palabra){
+		if(reemplazarU(*iterador) == palabra){
+			results.push_back(*iterador);
+		}
+		iterador++;
+	}
+	return results;
 }
 
 void TablaHash::vaciar(){
